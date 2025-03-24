@@ -1,0 +1,46 @@
+
+
+var fsdb = "fsinjector";
+if(http["edition"])
+	fsdb += http["edition"];
+
+print_doc('<?xml version="1.0"?>\n<courseinfo>\n');
+function escXML(str) {
+	if(typeof str == "undefined")
+		return "";
+	var newStr = str.replace(/\&/g,'&amp;');
+	newStr = newStr.replace(/\"/g,'&quot;');
+	newStr = newStr.replace(/\</g,'&lt;');
+	newStr = newStr.replace(/\>/g,'&gt;');
+	
+	return newStr;
+}
+for(var i in http)
+	http[i] = http[i].replace(/\+/g, " ");
+var code = "";
+if(http["code"])
+	code = decodeURIComponent(http["code"]);
+var subject = "";
+if(http["subject"])
+	subject = decodeURIComponent(http["subject"]);
+else if(http["department"])
+	subject = decodeURIComponent(http["department"]);
+
+if(subject.length || code.length) {
+	if(code.length) {
+		var sql = "SELECT * FROM fsi WHERE path = 'course:" + dbesc(fsdb, code.replace(/&amp;/g, "&")) + "'"; 
+	} else {
+		var sql = "SELECT * FROM fsi WHERE path LIKE 'course:" + dbesc(fsdb, subject.replace(/&amp;/g, "&")) + "%'"; 
+	}
+	var res = dbquery(fsdb, sql);
+	
+	for(var i=0;res && i< res.length; i++) {
+		var code = res[i].path.replace(/course:/, "");
+		print_doc('<course code="' + escXML(code) + '">\n');
+		print_doc('<![CDATA[\n')
+		print_doc(res[i].description + "\n");
+		print_doc(']]>\n');
+		print_doc("</course>\n");
+	}
+}
+print_doc("</courseinfo>\n");
