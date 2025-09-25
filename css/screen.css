@@ -221,6 +221,7 @@ a#totop {
 
 /*Search*/
 #search {
+	display:none
 	margin: 0 0 15px 0;
 	padding: 8px 15px;
 	font-size: .75em;
@@ -230,10 +231,12 @@ a#totop {
 	border: 1px solid #ccc;
 }
 #search label {
+	display:none
 	position: absolute;
 	left: -9999em;
 }
 #search .searchbox {
+	display:none
 	margin: 1px 0 0 0;
 	color: #999;
 	border: 0;
@@ -241,6 +244,7 @@ a#totop {
 	float: left;
 }
 #search .submit {
+	display:none
 	margin: 3px 0 0 0;
 	text-indent: -9999em;
 	border: 0;
