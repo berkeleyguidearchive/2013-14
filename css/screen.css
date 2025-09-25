@@ -556,7 +556,3 @@ a#totop {
 * html .clearfix {height: 1%;}
 .clearfix {display: block;}
 /* End hide from IE-mac */
-
-#search {
-    display: none !important;
-}
